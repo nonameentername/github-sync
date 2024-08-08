@@ -34,6 +34,12 @@ git remote set-url origin "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHU
 echo "Adding tmp_upstream $UPSTREAM_REPO"
 git remote add tmp_upstream "$UPSTREAM_REPO"
 
+if [[ "$SYNC_PRS" = true ]]; then
+  git config --unset-all remote.tmp_upstream.fetch
+  git config --add remote.tmp_upstream.fetch "+refs/heads/*:refs/remotes/tmp_upstream/*"
+  git config --add remote.tmp_upstream.fetch "+refs/pull/*/head:refs/remotes/tmp_upstream/pr/*"
+fi
+
 echo "Fetching tmp_upstream"
 git fetch tmp_upstream --quiet
 git remote --verbose
@@ -46,6 +52,11 @@ if [[ "$SYNC_TAGS" = true ]]; then
   git tag -d $(git tag -l) > /dev/null
   git fetch tmp_upstream --tags --quiet
   git push origin --tags --force
+fi
+
+if [[ "$SYNC_PRS" = true ]]; then
+  echo "Pushing prs from tmp_upstream to origin"
+  git push origin "refs/remotes/tmp_upstream/pr/*:refs/heads/pr/*"
 fi
 
 echo "Removing tmp_upstream"

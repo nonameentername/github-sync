@@ -60,6 +60,13 @@ If `destination_branch` and the branch where you will create this workflow will 
    ```
 This will force sync ALL branches to match source repo. Branches that are created only in the destination repo will not be affected but all the other branches will be *hard reset* to match source repo. ⚠️ This does mean if upstream ever creates a branch that shares the name, your changes will be gone.
 
+6. Optionally, you can force sync all tags:
+   ```
+   with:
+     sync_prs: "true"
+   ```
+This will force sync ALL pr branches to match source repo. Using the following format pr/#
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
