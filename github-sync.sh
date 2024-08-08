@@ -26,6 +26,7 @@ fi
 echo "UPSTREAM_REPO=$UPSTREAM_REPO"
 echo "BRANCHES=$BRANCH_MAPPING"
 
+git config --global --add safe.directory /github/workspace
 git config --unset-all http."https://github.com/".extraheader || :
 
 echo "Resetting origin to: https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
